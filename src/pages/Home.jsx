@@ -3,7 +3,10 @@ import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader'
 
 import Xmas from '../models/Xmas'
-import Sky from '../models/Sky';
+import Sky from '../models/Sky'
+
+import { FaPlay, FaPause } from 'react-icons/fa'
+import ReactAudioPlayer from 'react-audio-player'
 
 {/* <div className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
   POPUP
@@ -11,6 +14,7 @@ import Sky from '../models/Sky';
 
 const Home = () => {
   const [isRoating, setIsRotating] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const adjustXmas = () => {
     let screenScale = null;
@@ -49,8 +53,18 @@ const Home = () => {
               />
             </Suspense>
         </Canvas>
+
+        <div className='absolute bottom-4 left-4'>
+          <ReactAudioPlayer
+            src='src/music/Loyalty-Freak-Music-Hyper-Jingle-Bells(chosic.com).mp3'
+            autoPlay={isPlaying}
+            controls={false} />
+            <button onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? <FaPause /> : <FaPlay />}
+            </button>
+        </div>
     </section>
-  )
-}
+  );
+};
 
 export default Home
