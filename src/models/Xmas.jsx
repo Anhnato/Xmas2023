@@ -14,7 +14,7 @@ import { a } from '@react-spring/three';
 
 import xmasScene from '../assets/3d/christmas_ball.glb';
 
-const Xmas = ({isRotating, setIsRotating, ...props}) => {
+const Xmas = ({isRotating, setIsRotating, setCurrentStage, ...props}) => {
     const xmasballRef = useRef();
 
     const { gl, viewport } = useThree();
@@ -47,37 +47,10 @@ const Xmas = ({isRotating, setIsRotating, ...props}) => {
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const delta = (clientX - lastX.current) / viewport.width;
 
-        xmasballRef.current.rotation.y += delta * 0.01 * Math.PI;
+        xmasballRef.current.rotation.y += delta * 0.05 * Math.PI;
         lastX.current = clientX;
-        rotationSpeed.current = delta * 0.01 * Math.PI;
-      }
-    }
+        rotationSpeed.current = delta * 0.05 * Math.PI;
 
-    const handleKeyDown = (e) => {
-      if(e.key === 'ArrowLeft') {
-        if(!isRotating) setIsRotating(true);
-        xmasballRef.current.rotation.y += 0.01 * Math.PI;
-      } else if(e.key === 'ArrowRight') {
-        if(!isRotating) setIsRotating(true);
-        xmasballRef.current.rotation.y -= 0.01 * Math.PI;
-      }
-    }
-
-    const handleKeyUp = (e) => {
-      if(e.key === 'ArrowLeft' || e.key === 'ArrowRight')
-        setIsRotating(false);
-    }
-
-    useFrame(() => {
-      if(!isRotating){
-        rotationSpeed.current *= dampingFactor;
-
-        if(Math.abs(rotationSpeed.current) < 0.001) {
-          rotationSpeed.current = 0;
-        }
-
-        xmasballRef.current.rotation.y += rotationSpeed.current;
-      } else {
         const rotation = xmasballRef.current.rotation.y;
         
         const normalizedRotation = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
@@ -98,6 +71,33 @@ const Xmas = ({isRotating, setIsRotating, ...props}) => {
           default:
             setCurrentStage(null);
         }
+      }
+    }
+
+    const handleKeyDown = (e) => {
+      if(e.key === 'ArrowLeft') {
+        if(!isRotating) setIsRotating(true);
+        xmasballRef.current.rotation.y += 0.05 * Math.PI;
+      } else if(e.key === 'ArrowRight') {
+        if(!isRotating) setIsRotating(true);
+        xmasballRef.current.rotation.y -= 0.05 * Math.PI;
+      }
+    }
+
+    const handleKeyUp = (e) => {
+      if(e.key === 'ArrowLeft' || e.key === 'ArrowRight')
+        setIsRotating(false);
+    }
+
+    useFrame(() => {
+      if(!isRotating){
+        rotationSpeed.current *= dampingFactor;
+
+        if(Math.abs(rotationSpeed.current) < 0.001) {
+          rotationSpeed.current = 0;
+        }
+
+        xmasballRef.current.rotation.y += rotationSpeed.current;
       }
     })
 
