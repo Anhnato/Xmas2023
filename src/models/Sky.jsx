@@ -10,14 +10,14 @@ const Sky = ({ isRotating }) => {
     const skeRef = useRef();
 
     useFrame((_, delta) => {
-        if(isRotating) {
-            skeRef.current.rotate.y += 0.15 * delta
+        if(isRotating && skeRef.current) {
+            skeRef.current.rotation.y += 0.15 * delta;
         }
     })
 
     return (
         <mesh>
-            <primitive object={sky.scene} />
+            <primitive object={sky.scene} ref={skeRef}/>
         </mesh>
     )
 }

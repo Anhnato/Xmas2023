@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import ufo from '../assets/3d/ufo.glb';
 import { useAnimations, useGLTF } from '@react-three/drei';
-import { act } from '@react-three/fiber';
 
-const UFO = ({ isRotating, ...props}) => {
+const UFO = ({ isRotating, ufoScale, ufoPosition, rotation, ...props}) => {
     const ref = useRef();
     const { scene, animations } = useGLTF(ufo);
     const { actions } = useAnimations(animations, ref);
@@ -21,7 +20,7 @@ const UFO = ({ isRotating, ...props}) => {
     }, [actions, isRotating, animations])
 
   return (
-    <mesh {...props} ref={ref}>
+    <mesh scale={ufoScale} position={ufoPosition} rotation={rotation} {...props} ref={ref}>
         <primitive object={scene} />
     </mesh>
   )

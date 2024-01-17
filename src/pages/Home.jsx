@@ -48,20 +48,20 @@ const Home = () => {
   const [xmasScale, xmasPosition, xmasRotation] = adjustXmas();
 
   const adjustUFO = () => {
-    let screenScale;
-    let screenPosition;
+    let ufoScale;
+    let ufoPosition;
     if (window.innerWidth < 768) {
-      screenScale = [1.5, 1.5, 1.5];
-      screenPosition = [0, -1.5, 0];
+      ufoScale = [1.5, 1.5, 1.5];
+      ufoPosition = {x: 100, y: -100.5, z: 0};
     } else {
-      screenScale = [3, 3, 3];
-      screenPosition=[0, -4, -4]
+      ufoScale = [1, 1, 1];
+      ufoPosition={x: 10, y: 5, z: -4};
     }
 
-    return [screenScale, screenPosition];
+    return { ufoScale, ufoPosition };
   };
 
-  const [ufoScale, ufoPosition] = adjustUFO();
+  const { ufoScale, ufoPosition } = adjustUFO();
 
   return (
     <section className="w-full h-screen relative">
@@ -79,11 +79,15 @@ const Home = () => {
           <UFO 
             isRotating={isRotating}
             ufoScale={ufoScale}
-            ufoPosition={ufoPosition}
+            ufoPosition={[ufoPosition.x, ufoPosition.y, ufoPosition.z]}
             rotation={[0, 20, 0]}/>
+
           <Jerry />
-          <Damaged_Hands />
+
+          <Damaged_Hands position={[0.5, -0.6, 1.01]} scale={[ 2, 2, 2]} />
+
           <Sky isRotating={isRotating}/>
+
           <Xmas
             position={xmasPosition}
             scale={xmasScale}
